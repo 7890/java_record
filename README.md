@@ -1,6 +1,6 @@
 # java_record
 copy of http://www.vajhoej.dk/arne/opensource/record/
 
-[Data.java](java_record/tree/master/example/Data.java)
+[Data.java](example/Data.java)
 
-[CStruct.java](java_record/tree/master/example/CStruct.java)
+[CStruct.java](example/CStruct.java)
