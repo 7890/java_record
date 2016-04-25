@@ -1,0 +1,61 @@
+<project name="Record" default="dist">
+    <!--
+    Properties to set:
+        junit44lib = path to JUnit 4.4 jar file
+    -->
+    <property name="source_dir" value="src/main"/>
+    <property name="build_dir" value="build"/>
+    <property name="doc_dir" value="doc"/>
+    <property name="dist_dir" value="dist"/>
+
+    <target name="build">
+        <mkdir dir="${build_dir}" />
+        <javac source="1.5" 
+               target="1.5" 
+               classpath="${junit44lib}" 
+               srcdir="${source_dir}" 
+               destdir="${build_dir}" 
+               encoding="iso-8859-1"/>
+    </target>
+
+    <target name="pack" depends="build">
+        <mkdir dir="${dist_dir}" />
+        <jar destfile="${dist_dir}/record.jar" basedir="${build_dir}" includes="dk/vajhoej/record/*.class"/>
+    </target>
+
+    <target name="test" depends="build">
+        <junit fork="yes">
+            <formatter type="plain" usefile="false"/>
+            <classpath path="${junit44lib};${build_dir}"/>
+            <test name="dk.vajhoej.record.test.AllTests"/>
+        </junit>
+    </target>
+
+    <target name="doc">
+        <mkdir dir="${doc_dir}" />
+        <javadoc packagenames="dk.vajhoej.record,dk.vajhoej"
+                 sourcepath="${source_dir}"
+                 defaultexcludes="yes"
+                 includenosourcepackages="yes"
+                 destdir="${doc_dir}/api"
+		 encoding="iso-8859-1"/>
+    </target>
+
+    <target name="dist" depends="pack,doc">
+        <zip destfile="${dist_dir}/record-bin.zip">
+            <zipfileset dir="${doc_dir}" prefix="${doc_dir}"/>
+            <fileset dir="." includes="record.jar"/>
+        </zip>
+        <zip destfile="${dist_dir}/record-src.zip">
+            <zipfileset dir="${source_dir}" prefix="${source_dir}"/>
+            <fileset dir="." includes="build.xml"/>
+        </zip>
+    </target>
+
+    <target name="clean">
+	<delete dir="${build_dir}"/>
+	<delete dir="${doc_dir}"/>
+	<delete dir="${dist_dir}"/>
+    </target>
+
+</project>
